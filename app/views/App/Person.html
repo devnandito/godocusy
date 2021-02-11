@@ -1,0 +1,24 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="jumbotron" style="background-color:#A9F16C">
+  <div class="container">
+    <div class="row">
+      <h1>Person</h1>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+    {{range .people}}
+    <p>{{.PK}}</p>
+    <p>{{.First_name}}</p>
+    {{end}}
+  </div>
+</div>
+
+{{template "footer.html" .}}

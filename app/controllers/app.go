@@ -25,3 +25,23 @@ func (c App) Hello(name string) revel.Result {
 
 	return c.Render(name)
 }
+
+func (c App) Person() revel.Result {
+	people, err := allPerson()
+	if err != nil {
+		panic(err)
+	}
+	return c.Render(people)
+}
+
+func (c App) savePerson() revel.Result {
+	var err error
+	first_name := c.Params.Get("first_name")
+	_, err = insertPerson(first_name)
+	if err != nil {
+		panic(err)
+	}
+
+	return c.Redirect(App.Index)
+
+}

@@ -1,0 +1,11 @@
+development:
+  driver: postgres
+  dsn: user=tech password='F3rnand@21' dbname=docusys_dev sslmode=disable host=127.0.0.1 port=5432
+
+test:
+  driver: postgres
+  dsn: user=tech password='F3rnand@21' dbname=docusys_test sslmode=disable host=127.0.0.1 port=5432
+
+production:
+  driver: postgres
+  dsn: user=tech password='F3rnand@21' dbname=docusys_prod sslmode=disable host=127.0.0.1 port=5432
