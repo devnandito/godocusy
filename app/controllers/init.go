@@ -1,33 +1,41 @@
 package controllers
 
 import (
-	"database/sql"
-	"github.com/revel/revel"
-	_ "github.com/lib/pq"
 	"fmt"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"github.com/joho/godotenv"
+	"github.com/revel/revel"
+	"os"
+	models "docusys/app/models"
 )
 
-var DB *sql.DB
 
-func InitDB() {
-	connstring := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", "127.0.0.1", "tech", "F3rnand@21", "docusys")
+var DB *gorm.DB
 
-	var err error
-	DB, err := sql.Open("postgres", connstring)
+func InitDB () {
+	load := godotenv.Load(".env")
+
+	if load != nil {
+		panic(load)
+	}
+	DB_HOST := os.Getenv("DB_HOST")
+	DB_USER := os.Getenv("DB_USER")
+	DB_PWD := os.Getenv("DB_PWD")
+	DB_NAME := os.Getenv("DB_NAME")
+	DB_PORT := os.Getenv("DB_PORT")
+
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", DB_HOST, DB_USER, DB_PWD, DB_NAME, DB_PORT)
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
 
-	defer DB.Close()
-
-	err = DB.Ping()
-
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("Successfull connected")
+	db.DB()
+	db.AutoMigrate(&models.Client{})
+  DB = db
 }
 
-func init() {
+func init () {
 	revel.OnAppStart(InitDB)
 }
