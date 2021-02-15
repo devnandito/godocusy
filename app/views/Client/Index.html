@@ -1,0 +1,98 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="jumbotron" style="background-color:#A9F16C">
+  <div class="container">
+    <h2>Go CRUD</h2>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+    <form action="/clients" method="post">
+      <div class="row">
+          <div class="form-group">
+            <label for="first_name">First name:</label>
+            <input type="text" name="first_name">
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last name:</label>
+            <input type="text" name="last_name">
+          </div>
+          <div class="form-group">
+            <label for="ci">Document:</label>
+            <input type="text" name="ci">
+          </div>
+          <div class="col-xs-2">
+            <button type="submit" class="btn btn-success">
+              <i class="fa fa-plus"></i>Save
+            </button>
+          </div>
+        </div>
+    </form>
+  </div>
+  <div class="row row-title">
+    <div class="col-xs-2">
+      <div class="box">
+        ID
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Firstname
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Lastname
+      </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="box">
+          Delete
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="box">
+          Update
+        </div>
+    </div>
+  </div>
+  {{ range .clients}}
+  <div class="row row-item">
+    <div class="col-xs-2">
+      <div class="box">
+        {{.ID}}
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        {{.First_name}}
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        {{.Last_name}}
+      </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="box">
+          <form action="/clients/{{.ID}}/delete" method="post">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="box">
+          <a href="/clients/{{.ID}}" class="btn btn-warning">Update</a>
+        </div>
+    </div>
+  </div>
+  {{end}}
+</div>
+
+
+{{template "footer.html" .}}
