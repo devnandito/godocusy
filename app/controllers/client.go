@@ -1,10 +1,13 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/revel/revel"
 	"errors"
 	models "docusys/app/models"
 	// "strconv"
+	"github.com/vcraescu/go-paginator/v2"
+	"github.com/vcraescu/go-paginator/v2/adapter"
 )
 
 type Client struct {
@@ -20,6 +23,67 @@ func (c Client) Index() revel.Result {
 	}
 	return c.Render(clients)
 }
+
+func (c Client) List(page int) revel.Result {
+	clients := []models.Client{}
+	q := DB.Order("id desc").Find(&clients)
+	err := q.Error
+	p := paginator.New(adapter.NewGORMAdapter(q), 3)
+	if page == 0 {
+		p.SetPage(1) // set page actual
+		page = 1
+	}else{
+		p.SetPage(page)
+	}
+	if err = p.Results(&clients); err != nil {
+		panic(err)
+	}
+
+	for _, client := range clients {
+		fmt.Println(client.First_name)
+	}
+
+	hasPage, _ := p.HasPages()
+		fmt.Println("Exists pages:", hasPage)
+	
+	hasNext, _ := p.HasNext()
+		fmt.Println("Exists next:", hasNext)
+	
+	hasPrev, _ := p.HasPrev()
+		fmt.Println("Exists prev:", hasPrev)
+	
+	next, _ := p.NextPage()
+		fmt.Println("Next page:", next)
+	
+	current, _ := p.Page()
+		fmt.Println("Current page:", current)
+	
+	prev, _ := p.PrevPage()
+	 	fmt.Println("Prev page:", prev)
+	
+	totalPage, _ := p.PageNums()
+	 	fmt.Println("Total page:", totalPage)
+
+	nums, _ := p.Nums()
+	 	fmt.Println("Value nums:", nums)
+	
+	var s []int
+
+	for i:=1; i<= totalPage; i++ {
+	 	s = append(s, i)
+	}
+	fmt.Println(s)
+
+	// var s []string
+
+	// for i:=1; i<= totalPage; i++ {
+	//  	s = append(s, strconv.Itoa(i))
+	// }
+	// fmt.Println(s)
+	
+	return c.Render(clients, p, s, current)
+}
+
 
 func (c Client) Create() revel.Result {
 

@@ -18,6 +18,7 @@ require (
 	github.com/revel/pathtree v0.0.0-20140121041023-41257a1839e9 // indirect
 	github.com/revel/revel v1.0.0
 	github.com/twinj/uuid v1.0.0 // indirect
+	github.com/vcraescu/go-paginator/v2 v2.0.0
 	github.com/xeonx/timeago v1.0.0-rc4 // indirect
 	golang.org/x/net v0.0.0-20210119194325-5f4716e94777 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
