@@ -1,0 +1,57 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="jumbotron" style="background-color:#A9F16C">
+  <div class="container">
+    <h2>{{.h2}}</h2>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+    <div class="row">
+      <form action='{{ url "Client.Update" }}' method="post">
+        {{range .client}}
+          <div class="row">
+            <div class="form-group">
+              <label for="id">ID: {{.ID}}</label>
+              <input type="hidden" name="id" value="{{.ID}}">
+            </div>
+              <div class="form-group">
+                <label for="first_name">First name:</label>
+                <input type="text" name="first_name" value="{{.First_name}}">
+                <span class="danger"></span>
+              </div>
+              <div class="form-group">
+                <label for="last_name">Last name:</label>
+                <input type="text" name="last_name" value="{{.Last_name}}">
+              </div>
+              <div class="form-group">
+                <label for="ci">Document:</label>
+                <input type="text" name="ci" value="{{.Ci}}">
+              </div>
+              <div class="form-group">
+                <label for="birthday">Birthday:</label>
+                <input type="text" name="birthday" value="{{.BirthdayDateStr}}" placeholder="yyyy-MM-DD">
+              </div>
+              <div class="form-group">
+                <label for="sex">Sex:</label>
+                <input type="text" name="sex" value="{{.Sex}}" placeholder="M/F">
+              </div>
+              <div class="col-xs-2">
+                <button type="submit" class="btn btn-success">
+                  <i class="fa fa-plus"></i>Save
+                </button>
+                <a href='{{ url "Client.List" }}' class="btn btn-warning">Back</a>
+              </div>
+            </div>
+          {{end}}
+        </form>
+    </div>
+  </div>
+</div>
+
+{{template "footer.html" .}}
