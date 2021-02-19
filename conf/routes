@@ -8,8 +8,10 @@ module:testrunner
 
 
 GET     /                                       App.Index
-GET     /clients                                Client.Index
+GET     /clients/list                           Client.Index
+GET     /clients                                Client.List
 POST    /clients                                Client.Create
+POST    /clients/search                         Client.Search
 POST    /clients/:id/delete                     Client.Delete
 GET     /clients/:id                            Client.Edit
 POST    /clients/update                         Client.Update

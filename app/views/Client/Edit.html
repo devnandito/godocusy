@@ -3,7 +3,7 @@
 
 <header class="jumbotron" style="background-color:#A9F16C">
   <div class="container">
-    <h2>Go CRUD</h2>
+    <h2>{{.h2}}</h2>
   </div>
 </header>
 
@@ -32,10 +32,19 @@
                 <label for="ci">Document:</label>
                 <input type="text" name="ci" value="{{.Ci}}">
               </div>
+              <div class="form-group">
+                <label for="birthday">Birthday:</label>
+                <input type="text" name="birthday" value="{{.Birthday}}" placeholder="yyyy-MM-DD">
+              </div>
+              <div class="form-group">
+                <label for="sex">Sex:</label>
+                <input type="text" name="sex" value="{{.Sex}}" placeholder="M/F">
+              </div>
               <div class="col-xs-2">
                 <button type="submit" class="btn btn-success">
                   <i class="fa fa-plus"></i>Save
                 </button>
+                <a href="/clients" class="btn btn-warning">Back</a>
               </div>
             </div>
           {{end}}
