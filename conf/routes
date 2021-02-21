@@ -8,12 +8,12 @@ module:testrunner
 
 
 GET     /                                       App.Index
-GET     /clients/list                           Client.Index
-GET     /clients                                Client.List
+GET     /clients                                Client.Index
+GET     /clients/pagination                     Client.ListPage
 POST    /clients                                Client.Create
 POST    /clients/search                         Client.Search
-POST    /clients/:id/delete                     Client.Delete
-GET     /clients/:id                            Client.Edit
+GET     /clients/:id/delete                     Client.Delete
+GET     /clients/:id/edit                       Client.Edit
 POST    /clients/update                         Client.Update
 
 # Ignore favicon requests

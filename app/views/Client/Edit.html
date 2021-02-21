@@ -6,51 +6,54 @@
     <h2>{{.h2}}</h2>
   </div>
 </header>
-
 <div class="container">
+  <div class="span6">
+    {{if .errors}}
+    <div class="error alert-danger">
+      <h3>Oops, Corrige estos errores</h3>
+    </div>
+    {{end}}
+  </div>
   <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
-    <div class="row">
-      <form action="/clients/update" method="post">
-        {{range .client}}
-          <div class="row">
-            <div class="form-group">
-              <label for="first_name">ID: {{.ID}}</label>
-              <input type="hidden" name="id" value="{{.ID}}">
-            </div>
-              <div class="form-group">
-                <label for="first_name">First name:</label>
-                <input type="text" name="first_name" value="{{.First_name}}">
-              </div>
-              <div class="form-group">
-                <label for="last_name">Last name:</label>
-                <input type="text" name="last_name" value="{{.Last_name}}">
-              </div>
-              <div class="form-group">
-                <label for="ci">Document:</label>
-                <input type="text" name="ci" value="{{.Ci}}">
-              </div>
-              <div class="form-group">
-                <label for="birthday">Birthday:</label>
-                <input type="text" name="birthday" value="{{.Birthday}}" placeholder="yyyy-MM-DD">
-              </div>
-              <div class="form-group">
-                <label for="sex">Sex:</label>
-                <input type="text" name="sex" value="{{.Sex}}" placeholder="M/F">
-              </div>
-              <div class="col-xs-2">
-                <button type="submit" class="btn btn-success">
-                  <i class="fa fa-plus"></i>Save
-                </button>
-                <a href="/clients" class="btn btn-warning">Back</a>
-              </div>
-            </div>
-          {{end}}
-        </form>
-    </div>
+    <form action='{{ url "Client.Update" }}' method="post">
+      <div class="row">
+        <div class="form-group">
+          <label for="id">ID: {{.id}} </label>
+          <input type="hidden" name="client.ID" value='{{.id}}'/>
+        </div>
+        <div class="form-group">
+          <label for="first_name">First name: </label>
+          <input type="text" name="client.First_name" value="{{.first_name}}" class='{{errorClass "client.First_name" .}}'/>
+          <span class="error alert-danger">{{index .errors "client.First_name"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last name:</label>
+          <input type="text" name="client.Last_name" value="{{.last_name}}" class='{{errorClass "client.Last_name" .}}'>
+          <span class="error alert-danger">{{index .errors "client.Last_name"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="ci">Document:</label>
+          <input type="text" name="client.Ci" value="{{.ci}}" class='{{errorClass "client.Ci" .}}'>
+          <span class="error alert-danger">{{index .errors "client.Ci"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="birthday">Birthday:</label>
+          <input type="text" name="client.Birthday" value='{{.birthday.Format "2006-01-02"}}' class='{{errorClass "client.Birthday" .}}' placeholder="2006-01-02">
+          <span class="error alert-danger">{{index .errors "client.Birthday"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="sex">Sex:</label>
+          <input type="text" name="client.Sex" value="{{.sex}}" class='{{errorClass "client.Sex" .}}'>
+          <span class="error alert-danger">{{index .errors "client.Sex"}}</span>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">
+            Save
+          </button>
+          <a href='{{ url "Client.Index" }}' class="btn btn-warning">Back</a>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
-
 {{template "footer.html" .}}

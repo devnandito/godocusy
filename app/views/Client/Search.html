@@ -8,12 +8,12 @@
 </header>
 
 <div class="container">
-  <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
+  <a href='{{url "Client.Index"}}' class="btn btn-warning">Back</a>
+  <div class="row row-title">
+    <div class="col-xs-6">
+      <h4>Total Records: {{.count}}</h4>
     </div>
-  </div> 
-  <a href="/clients" class="btn btn-warning">Back</a>
+  </div>
   <div class="row row-title">
     <div class="col-xs-2">
       <div class="box">
@@ -27,27 +27,27 @@
     </div>
     <div class="col-xs-2">
       <div class="box">
-        Firstname
+        Full name
       </div>
     </div>
     <div class="col-xs-2">
       <div class="box">
-        Lastname
+        Nationality
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Birthday
       </div>
     </div>
     <div class="col-xs-2">
         <div class="box">
-          Delete
-        </div>
-    </div>
-    <div class="col-xs-2">
-        <div class="box">
-          Update
+          Action
         </div>
     </div>
   </div>
-  {{if .client}}
-    {{range .client}}
+  {{if .clients}}
+    {{ range .clients}}
     <div class="row row-item">
       <div class="col-xs-2">
         <div class="box">
@@ -61,30 +61,33 @@
       </div>
       <div class="col-xs-2">
         <div class="box">
-          {{.First_name}}
+          {{.First_name}} {{.Last_name}}
         </div>
       </div>
       <div class="col-xs-2">
         <div class="box">
-          {{.Last_name}}
+          {{.Nationality}}
         </div>
       </div>
       <div class="col-xs-2">
-          <div class="box">
-            <form action="/clients/{{.ID}}/delete" method="post">
-              <button class="btn btn-danger">Delete</button>
-            </form>
-          </div>
+        <div class="box">
+          {{.BirthdayDateStr}}
+        </div>
       </div>
       <div class="col-xs-2">
-          <div class="box">
-            <a href="/clients/{{.ID}}" class="btn btn-warning">Update</a>
-          </div>
+        <div class="box">
+          <a href='{{ url "Client.Delete" .ID }}' class="btn btn-danger">Delete</a>
+        </div>
+        <div class="box">
+          <a href='{{ url "Client.Edit" .ID }}' class="btn btn-warning">Update</a>
+        </div>
       </div>
     </div>
     {{end}}
   {{else}}
-    <h2>{{.notFound}}</h2>
+    <h3>No se encontraron registros</h3>
   {{end}}
 </div>
+
+
 {{template "footer.html" .}}

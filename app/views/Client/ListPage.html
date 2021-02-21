@@ -1,0 +1,156 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<header class="jumbotron" style="background-color:#A9F16C">
+  <div class="container">
+    <h2>{{.h2}}</h2>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{if .errors}}
+      <div class="error alert-danger">
+        <h3>Oops, Corrige estos errores</h3>
+      </div>
+      {{end}}
+    </div>
+    <form action='{{ url "Client.Create" }}' method="post">
+      <div class="row">
+        <div class="form-group">
+          <label for="first_name">First name:</label>
+          <input type="text" id="first_name" name="client.First_name" value='{{index .flash "client.First_name"}}' class='{{errorClass "client.First_name" .}}'/>
+          <span class="error alert-danger">{{index .errors "client.First_name"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="last_name">Last name:</label>
+          <input type="text" name="client.Last_name" value='{{index .flash "client.Last_name"}}' class='{{errorClass "client.Last_name" .}}'>
+          <span class="error alert-danger">{{index .errors "client.Last_name"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="ci">Document:</label>
+          <input type="text" name="client.Ci" value='{{index .flash "client.Ci"}}' class='{{errorClass "client.Ci" .}}'>
+          <span class="error alert-danger">{{index .errors "client.Ci"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="birthday">Birthday:</label>
+          <input type="text" name="client.Birthday" value='{{index .flash "client.Birthday"}}' class='{{errorClass "client.Birthday" .}}' placeholder="2006-01-02">
+          <span class="error alert-danger">{{index .errors "client.Birthday"}}</span>
+        </div>
+        <div class="form-group">
+          <label for="sex">Sex:</label>
+          <input type="text" name="client.Sex" value='{{index .flash "client.Sex"}}' class='{{errorClass "client.Sex" .}}'>
+          <span class="error alert-danger">{{index .errors "client.Sex"}}</span>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success">
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <a href='{{url "Client.Index" }}' class="btn btn-success">Back</a>
+  </div>
+  <div class="row row-title">
+    <div class="col-xs-2">
+      <div class="box">
+        ID
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Document
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Firstname
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Lastname
+      </div>
+    </div>
+    <div class="col-xs-2">
+      <div class="box">
+        Birthday
+      </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="box">
+          Action
+        </div>
+    </div>
+  </div>
+  {{if .clients}}
+    {{ range .clients}}
+    <div class="row row-item">
+      <div class="col-xs-2">
+        <div class="box">
+          {{.ID}}
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="box">
+          {{.Ci}}
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="box">
+          {{.First_name}}
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="box">
+          {{.Last_name}}
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="box">
+          {{.BirthdayDateStr}}
+        </div>
+      </div>
+      <div class="col-xs-2">
+        <div class="box">
+          <a href='{{ url "Client.Delete" .ID }}' class="btn btn-danger">Delete</a>
+        </div>
+        <div class="box">
+          <a href='{{ url "Client.Edit" .ID }}' class="btn btn-warning">Update</a>
+        </div>
+      </div>
+    </div>
+    {{end}}
+    {{if .p.HasPages}}
+      <ul class="pagination pagination">
+        {{if .p.HasPrev}}
+          <li><a href='{{ url "Client.ListPage" 1 }}'>First</a></li>
+          <li><a href='{{ url "Client.ListPage" .p.PrevPage }}'>Prev</a></li>
+        {{else}}
+          <li class="disabled"><a href="">First</a></li>
+          <li class="disabled"><a href="">Prev</a></li>
+        {{end}}
+        {{ $current := .current}}
+        {{ range $page := .s }}
+          <li {{ if eq $page $current }} class="active" {{end}}><a href='{{ url "Client.ListPage" $page }}'>{{$page}}</a></li>
+        {{end}}
+        {{if .p.HasNext}}
+        <li><a href='{{ url "Client.ListPage" .p.NextPage }}'>Next</a></li>
+        <li><a href='{{ url "Client.ListPage" .p.PageNums }}'>Last</a></li>
+        {{else}}
+        <li class="disabled"><a href="">Next</a></li>
+        <li class="disabled"><a href="">Last</a></li>
+        {{end}}
+      </ul>
+    {{end}}
+    <p>Page {{.p.Page}} of  {{.p.PageNums}} </p>
+  {{else}}
+    <h3>No se encontraron registros</h3>
+  {{end}}
+</div>
+
+
+{{template "footer.html" .}}
